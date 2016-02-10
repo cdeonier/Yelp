@@ -8,12 +8,22 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
-    var businesses: [Business]!
+    @IBOutlet weak var tableView: UITableView!
+    
+    var businesses: [Business] = []
+    var searchBar: UISearchBar?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 120
+        
+        setUpSearchBar()
 
         Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
@@ -22,6 +32,7 @@ class BusinessesViewController: UIViewController {
                 print(business.name!)
                 print(business.address!)
             }
+            self.tableView.reloadData()
         })
 
 /* Example of Yelp search with more search options specified
@@ -34,6 +45,41 @@ class BusinessesViewController: UIViewController {
             }
         }
 */
+    }
+    
+    func setUpSearchBar() {
+        searchBar = UISearchBar()
+        searchBar?.placeholder = "Restaurants"
+        searchBar?.sizeToFit()
+        searchBar?.delegate = self
+        
+        navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        NSLog("Did search with text" + searchText)
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return businesses.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
+        configureCell(cell, forRowAtIndexPath: indexPath)
+        return cell
+    }
+    
+    func configureCell(cell: BusinessCell, forRowAtIndexPath: NSIndexPath) {
+        let business = businesses[forRowAtIndexPath.row]
+        
+        cell.thumbnailImageView.setImageWithURL(business.imageURL!)
+        cell.titleLabel.text = business.name
+        cell.addressLabel.text = business.address
+        cell.ratingsImageView.setImageWithURL(business.ratingImageURL!)
+        cell.categoriesLabel.text = business.categories
+        cell.distanceLabel.text = business.distance
+        cell.reviewsLabel.text = "\(business.reviewCount!) Reviews"
     }
 
     override func didReceiveMemoryWarning() {
