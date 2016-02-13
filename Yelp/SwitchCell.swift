@@ -9,5 +9,7 @@
 import UIKit
 
 class SwitchCell: UITableViewCell {
+    @IBOutlet weak var optionNameLabel: UILabel!
 
+    @IBOutlet weak var optionSwitch: UISwitch!
 }

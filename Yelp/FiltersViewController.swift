@@ -19,6 +19,8 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     var filters: Filters?
     var delegate: FiltersDelegate?
     
+    var categoryExpanded: Bool = true;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -87,11 +89,49 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func configureSwitchCell(switchCell: SwitchCell, forRowAtIndexPath: NSIndexPath) {
         createBorder(switchCell)
         
-        
+        let section = forRowAtIndexPath.section
+        switch section {
+        case 0:
+            switchCell.optionNameLabel.text = "Offering a Deal"
+            break;
+        case 3:
+            let category = categories[forRowAtIndexPath.row]
+            switchCell.optionNameLabel.text = category["name"]
+            break;
+        default:
+            NSLog("Error trying to configure SwitchCell")
+        }
     }
     
     func configureDropdownCell(dropdownCell: DropdownCell, forRowAtIndexPath: NSIndexPath) {
         createBorder(dropdownCell)
+        
+        let section = forRowAtIndexPath.section
+        let row = forRowAtIndexPath.row
+        dropdownCell.optionSelectionImageView.image = imageForDropdown(row)
+        
+        switch section {
+        case 1:
+            dropdownCell.optionNameLabel.text = Distance.displayStrings[row]
+            break;
+        case 2:
+            dropdownCell.optionNameLabel.text = SortOption.displayStrings[row]
+            break;
+        default:
+            NSLog("Error trying to configure SwitchCell")
+        }
+    }
+    
+    func imageForDropdown(row: Int) -> UIImage {
+        if (categoryExpanded) {
+            if (row == 0) {
+                return UIImage(named: "Check")!
+            } else {
+                return UIImage(named: "Circle")!
+            }
+        } else {
+            return UIImage(named: "Dropdown")!
+        }
     }
 
     func createBorder(view: UIView) {

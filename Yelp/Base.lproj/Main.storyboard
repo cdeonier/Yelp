@@ -182,6 +182,10 @@
                                                 <constraint firstItem="kWf-rV-n5R" firstAttribute="top" secondItem="WGh-1v-At0" secondAttribute="top" constant="15" id="qwi-9l-SCM"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="optionNameLabel" destination="kWf-rV-n5R" id="MY8-nl-SbZ"/>
+                                            <outlet property="optionSwitch" destination="gU2-0q-CWB" id="etX-TV-fcb"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DropdownCell" rowHeight="51" id="Hco-GG-cYk" userLabel="DistanceCell" customClass="DropdownCell" customModule="Yelp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="143" width="304" height="51"/>
@@ -211,6 +215,10 @@
                                                 <constraint firstItem="8YX-4D-y6W" firstAttribute="top" secondItem="wS1-mX-E4R" secondAttribute="top" constant="15" id="liD-mo-WO9"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="optionNameLabel" destination="8YX-4D-y6W" id="rdM-uC-PE1"/>
+                                            <outlet property="optionSelectionImageView" destination="jnd-BP-8Jj" id="ozt-Vm-G8N"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

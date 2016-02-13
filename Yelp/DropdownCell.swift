@@ -10,4 +10,6 @@ import UIKit
 
 class DropdownCell: UITableViewCell {
 
+    @IBOutlet weak var optionNameLabel: UILabel!
+    @IBOutlet weak var optionSelectionImageView: UIImageView!
 }
