@@ -220,6 +220,28 @@
                                             <outlet property="optionSelectionImageView" destination="jnd-BP-8Jj" id="ozt-Vm-G8N"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeeAllCell" id="xwv-K7-ago">
+                                        <rect key="frame" x="0.0" y="194" width="304" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xwv-K7-ago" id="7s9-w9-M6K">
+                                            <rect key="frame" x="0.0" y="0.0" width="304" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See All" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6h-1q-VZD">
+                                                    <rect key="frame" x="126" y="15" width="53" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="v6h-1q-VZD" firstAttribute="top" secondItem="7s9-w9-M6K" secondAttribute="top" constant="15" id="HrU-9q-swk"/>
+                                                <constraint firstItem="v6h-1q-VZD" firstAttribute="centerX" secondItem="7s9-w9-M6K" secondAttribute="centerX" id="MQZ-I9-lXy"/>
+                                                <constraint firstItem="v6h-1q-VZD" firstAttribute="centerY" secondItem="7s9-w9-M6K" secondAttribute="centerY" id="Wqg-O4-SWo"/>
+                                                <constraint firstAttribute="bottom" secondItem="v6h-1q-VZD" secondAttribute="bottom" constant="15" id="eJM-kQ-Z5Y"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>

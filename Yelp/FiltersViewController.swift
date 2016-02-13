@@ -19,7 +19,9 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     var filters: Filters?
     var delegate: FiltersDelegate?
     
-    var categoryExpanded: Bool = true;
+    var distanceExpanded: Bool = false
+    var sortOptionExpanded: Bool = false
+    var categoriesExpanded: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,15 +67,21 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         case .Deals:
             return 1
         case .Distance:
-            return Distance.count
+            return distanceExpanded ? Distance.count : 1
         case .Sort:
-            return SortOption.count
+            return sortOptionExpanded ? SortOption.count : 1
         case .Categories:
-            return categories.count
+            return categoriesExpanded ? categories.count : 4
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if (isSeeAllCell(indexPath)) {
+            let cell = tableView.dequeueReusableCellWithIdentifier("SeeAllCell", forIndexPath: indexPath)
+            createBorder(cell)
+            return cell
+        }
+        
         let filter = Filter.values[indexPath.section]
         if (filter == .Deals || filter == .Categories) {
             let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
@@ -84,6 +92,10 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             configureDropdownCell(cell, forRowAtIndexPath: indexPath)
             return cell
         }
+    }
+    
+    func isSeeAllCell(indexPath: NSIndexPath) -> Bool {
+        return !categoriesExpanded && indexPath.section == 3 && indexPath.row == 3
     }
     
     func configureSwitchCell(switchCell: SwitchCell, forRowAtIndexPath: NSIndexPath) {
@@ -108,22 +120,23 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let section = forRowAtIndexPath.section
         let row = forRowAtIndexPath.row
-        dropdownCell.optionSelectionImageView.image = imageForDropdown(row)
         
         switch section {
         case 1:
             dropdownCell.optionNameLabel.text = Distance.displayStrings[row]
+            dropdownCell.optionSelectionImageView.image = imageForDropdown(distanceExpanded, row: row)
             break;
         case 2:
             dropdownCell.optionNameLabel.text = SortOption.displayStrings[row]
+            dropdownCell.optionSelectionImageView.image = imageForDropdown(sortOptionExpanded, row: row)
             break;
         default:
             NSLog("Error trying to configure SwitchCell")
         }
     }
     
-    func imageForDropdown(row: Int) -> UIImage {
-        if (categoryExpanded) {
+    func imageForDropdown(optionsExpanded: Bool, row: Int) -> UIImage {
+        if (optionsExpanded) {
             if (row == 0) {
                 return UIImage(named: "Check")!
             } else {
