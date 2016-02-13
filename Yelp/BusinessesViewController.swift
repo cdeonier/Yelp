@@ -8,21 +8,19 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FiltersDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
     var businesses: [Business] = []
     var searchBar: UISearchBar?
+    var filters: Filters?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
-        
+
+        setUpTableView()
         setUpSearchBar()
 
         Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
@@ -45,6 +43,13 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             }
         }
 */
+    }
+    
+    func setUpTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 120
     }
     
     func setUpSearchBar() {
@@ -86,15 +91,23 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func filtersViewController(filters: Filters) {
+        self.filters = filters
+    }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let navigationController = segue.destinationViewController as? UINavigationController
+        let filtersController = navigationController?.topViewController as? FiltersViewController
+        
+        if let filtersController = filtersController {
+            filtersController.delegate = self
+            filtersController.filters = filters
+        }
     }
-    */
+
 
 }

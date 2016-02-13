@@ -17,6 +17,10 @@
 		22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */; };
 		90B718C590BD546DEFEF0D61 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3C5CF4FD317D72ABE2AAC4 /* Pods.framework */; };
 		AA818C071C6B2127008AC5A0 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA818C061C6B2127008AC5A0 /* FiltersViewController.swift */; };
+		AAAD14241C6C5F7E001D511A /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD14231C6C5F7E001D511A /* Filters.swift */; };
+		AAAD14261C6C6E13001D511A /* DropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD14251C6C6E13001D511A /* DropdownCell.swift */; };
+		AAAD14281C6C6E1E001D511A /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD14271C6C6E1E001D511A /* SwitchCell.swift */; };
+		AAAD142A1C6C7880001D511A /* UIPaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD14291C6C7880001D511A /* UIPaddedLabel.swift */; };
 		AAF508271C6874A2005313C0 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF508261C6874A2005313C0 /* BusinessCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +50,10 @@
 		97D8B2E3FFD1AF4F4A707E47 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AA3C5CF4FD317D72ABE2AAC4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA818C061C6B2127008AC5A0 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		AAAD14231C6C5F7E001D511A /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
+		AAAD14251C6C6E13001D511A /* DropdownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownCell.swift; sourceTree = "<group>"; };
+		AAAD14271C6C6E1E001D511A /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
+		AAAD14291C6C7880001D511A /* UIPaddedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIPaddedLabel.swift; sourceTree = "<group>"; };
 		AAF508261C6874A2005313C0 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		BBD540129B10DFE60E8C24E2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				22AAAA981AEA0A9700A544AF /* Business.swift */,
+				AAAD14231C6C5F7E001D511A /* Filters.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -167,6 +176,9 @@
 			isa = PBXGroup;
 			children = (
 				AAF508261C6874A2005313C0 /* BusinessCell.swift */,
+				AAAD14251C6C6E13001D511A /* DropdownCell.swift */,
+				AAAD14271C6C6E1E001D511A /* SwitchCell.swift */,
+				AAAD14291C6C7880001D511A /* UIPaddedLabel.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -333,7 +345,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAAD14241C6C5F7E001D511A /* Filters.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
+				AAAD14281C6C6E1E001D511A /* SwitchCell.swift in Sources */,
+				AAAD14261C6C6E13001D511A /* DropdownCell.swift in Sources */,
+				AAAD142A1C6C7880001D511A /* UIPaddedLabel.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
 				AAF508271C6874A2005313C0 /* BusinessCell.swift in Sources */,
