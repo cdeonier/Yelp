@@ -26,6 +26,15 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
+        setUpNavigationStuff()
+    }
+    
+    func setUpNavigationStuff() {
+        navigationController?.navigationBar.barTintColor = UIColor(red: 255/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0)
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        navigationController?.navigationBar.titleTextAttributes = titleDict as! [String: UIColor]
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
     func setUpTableView() {

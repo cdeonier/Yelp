@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FiltersDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate, FiltersDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -16,6 +16,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var searchBar: UISearchBar?
     var filters: Filters?
     var term: String = "Restaurants"
+    var offset = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +25,24 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
 
         setUpTableView()
         setUpSearchBar()
+        setUpNavigationStuff()
         executeSearch()
+    }
+    
+    func setUpNavigationStuff() {
+        navigationController?.navigationBar.barTintColor = UIColor(red: 255/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0)
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
     func executeSearch() {
         if let filters = filters {
-            Business.searchWithTerm(term, distance: filters.distance, sort: filters.sort!, categories: filters.categories!, deals: filters.deals) { (businesses: [Business]!, error: NSError!) -> Void in
-                self.businesses = businesses
+            Business.searchWithTerm(term, distance: filters.distance, sort: filters.sort!, categories: filters.categories!, deals: filters.deals, offset: offset) { (businesses: [Business]!, error: NSError!) -> Void in
+                if (self.offset == 0) {
+                    self.businesses = businesses
+                } else {
+                   self.businesses.appendContentsOf(businesses)
+                }
+                
                 self.tableView.reloadData()
             }
         }
@@ -53,7 +65,13 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        NSLog("Did search with text" + searchText)
+        if (searchText == "") {
+            term = "Restaurants"
+        } else {
+            term = searchText
+        }
+
+        executeSearch()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +87,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func configureCell(cell: BusinessCell, forRowAtIndexPath: NSIndexPath) {
         let business = businesses[forRowAtIndexPath.row]
         
-        cell.thumbnailImageView.setImageWithURL(business.imageURL!)
+        if let imageUrl = business.imageURL {
+           cell.thumbnailImageView.setImageWithURL(imageUrl)
+        }
+        
         cell.titleLabel.text = business.name
         cell.addressLabel.text = business.address
         cell.ratingsImageView.setImageWithURL(business.ratingImageURL!)
@@ -85,7 +106,24 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func filtersViewController(filters: Filters) {
         self.filters = filters
+        offset = 0
         executeSearch()
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let scrollViewOffset = scrollView.contentOffset
+        let bounds = scrollView.bounds
+        let size = scrollView.contentSize
+        let insets = scrollView.contentInset
+        
+        let y = scrollViewOffset.y + bounds.size.height - insets.bottom
+        let h = size.height
+        
+        let reloadDistance = 50
+        if (Int(y) > Int(h) + reloadDistance) {
+            offset += 20
+            executeSearch()
+        }
     }
 
     // MARK: - Navigation
@@ -100,6 +138,4 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             filtersController.filters = filters
         }
     }
-
-
 }
