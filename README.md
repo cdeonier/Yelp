@@ -1,4 +1,4 @@
-# Project 2 - *Name of App Here*
+# Project 2 - Yelp
 
 **Name of your app** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
@@ -16,7 +16,7 @@ The following **required** functionality is completed:
    - [x] The filters you should actually have are: category, sort (best match, distance, highest rated), distance, deals (on/off).
    - [x] The filters table should be organized into sections as in the mock.
    - [x] You can use the default UISwitch for on/off states.
-   - [ ] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
+   - [x] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
    - [x] Display some of the available Yelp categories (choose any 3-4 that you want).
 
 The following **optional** features are implemented:
@@ -26,8 +26,8 @@ The following **optional** features are implemented:
    - [ ] Implement map view of restaurant results.
 - [ ] Filter page
    - [ ] Implement a custom switch instead of the default UISwitch.
-   - [ ] Distance filter should expand as in the real Yelp app
-   - [ ] Categories should show a subset of the full list with a "See All" row to expand. Category list is [here](http://www.yelp.com/developers/documentation/category_list).
+   - [x] Distance filter should expand as in the real Yelp app
+   - [x] Categories should show a subset of the full list with a "See All" row to expand. Category list is [here](http://www.yelp.com/developers/documentation/category_list).
 - [ ] Implement the restaurant detail page.
 
 The following **additional** features are implemented:
