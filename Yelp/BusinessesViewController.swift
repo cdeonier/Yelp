@@ -15,34 +15,25 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var businesses: [Business] = []
     var searchBar: UISearchBar?
     var filters: Filters?
+    var term: String = "Restaurants"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        filters = Filters()
 
         setUpTableView()
         setUpSearchBar()
-
-        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-        
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
-            }
-            self.tableView.reloadData()
-        })
-
-/* Example of Yelp search with more search options specified
-        Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
+        executeSearch()
+    }
+    
+    func executeSearch() {
+        if let filters = filters {
+            Business.searchWithTerm(term, distance: filters.distance, sort: filters.sort!, categories: filters.categories!, deals: filters.deals) { (businesses: [Business]!, error: NSError!) -> Void in
+                self.businesses = businesses
+                self.tableView.reloadData()
             }
         }
-*/
     }
     
     func setUpTableView() {
@@ -94,6 +85,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func filtersViewController(filters: Filters) {
         self.filters = filters
+        executeSearch()
     }
 
     // MARK: - Navigation

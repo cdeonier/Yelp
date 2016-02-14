@@ -15,6 +15,7 @@ enum SortOption : Int {
     
     static let count = 3
     static let displayStrings = ["Best Match", "Distance", "Highest Rated"]
+    static let values = [BestMatch, Distance, HighestRated]
 }
 
 enum Filter : String {
@@ -35,6 +36,12 @@ enum Distance : Int {
     
     static let count = 4
     static let displayStrings = ["Auto", "1 Mile", "5 Miles", "20 Miles"]
+    static let values = [Auto, One, Five, Twenty]
+    
+    func displayStringForDistance(distance: Distance) -> String {
+        let currentDistance = Distance.values.indexOf(distance)
+        return Distance.displayStrings[currentDistance!]
+    }
 }
 
 class Filters {
@@ -45,7 +52,19 @@ class Filters {
     var categories: [String]?
     
     init() {
+        deals = false
+        distance = .Auto
+        sort = .BestMatch
         categories = []
     }
     
+    func displayStringForDistance() -> String {
+        let currentDistance = Distance.values.indexOf(distance!)
+        return Distance.displayStrings[currentDistance!]
+    }
+    
+    func displayStringForSortOption() -> String {
+        let sortOption = SortOption.values.indexOf(sort!)
+        return SortOption.displayStrings[sortOption!]
+    }
 }

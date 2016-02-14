@@ -12,7 +12,7 @@ protocol FiltersDelegate {
     func filtersViewController(filters: Filters)
 }
 
-class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -25,18 +25,12 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setUpTableView()
     }
     
     func setUpTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func onCancelButton(sender: AnyObject) {
@@ -45,6 +39,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     @IBAction func onSearchButton(sender: AnyObject) {
+        delegate?.filtersViewController(filters!)
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -94,24 +89,83 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.section {
+        case 1:
+            if (distanceExpanded) {
+                let row = indexPath.row
+                filters?.distance = Distance.values[row]
+            }
+            distanceExpanded = !distanceExpanded
+            let indexSet = NSIndexSet(index: indexPath.section)
+            tableView.reloadSections(indexSet, withRowAnimation: .Automatic)
+            break
+        case 2:
+            if (sortOptionExpanded) {
+                let row = indexPath.row
+                filters?.sort = SortOption.values[row]
+            }
+            sortOptionExpanded = !sortOptionExpanded
+            let indexSet = NSIndexSet(index: indexPath.section)
+            tableView.reloadSections(indexSet, withRowAnimation: .Automatic)
+            break
+        case 3:
+            if (isSeeAllCell(indexPath)) {
+                categoriesExpanded = true
+                tableView.reloadData()
+            }
+        default:
+            return
+        }
+    }
+    
     func isSeeAllCell(indexPath: NSIndexPath) -> Bool {
         return !categoriesExpanded && indexPath.section == 3 && indexPath.row == 3
     }
     
     func configureSwitchCell(switchCell: SwitchCell, forRowAtIndexPath: NSIndexPath) {
         createBorder(switchCell)
+        switchCell.delegate = self
         
         let section = forRowAtIndexPath.section
         switch section {
         case 0:
             switchCell.optionNameLabel.text = "Offering a Deal"
+            switchCell.optionSwitch.on = (filters?.deals!)!
             break;
         case 3:
             let category = categories[forRowAtIndexPath.row]
             switchCell.optionNameLabel.text = category["name"]
+            
+            if let filters = filters {
+                switchCell.optionSwitch.on = (filters.categories?.contains(category["code"]!))!
+            }
             break;
         default:
             NSLog("Error trying to configure SwitchCell")
+        }
+    }
+    
+    func switchCell(switchCell: SwitchCell, newValue: Bool) {
+        let indexPath = tableView.indexPathForCell(switchCell)
+        if let indexPath = indexPath {
+            let section = indexPath.section
+        
+            if (section == 0) {
+                filters?.deals = newValue
+            } else {
+                let row = indexPath.row
+                let categorySelected = categories[row]
+                let categoryCode = categorySelected["code"]!
+                if (newValue) {
+                    filters?.categories?.append(categoryCode)
+                } else {
+                    let index = filters?.categories?.indexOf(categoryCode)
+                    if let index = index {
+                        filters?.categories?.removeAtIndex(index)
+                    }
+                }
+            }
         }
     }
     
@@ -123,21 +177,39 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         
         switch section {
         case 1:
-            dropdownCell.optionNameLabel.text = Distance.displayStrings[row]
-            dropdownCell.optionSelectionImageView.image = imageForDropdown(distanceExpanded, row: row)
+            if (distanceExpanded) {
+                dropdownCell.optionNameLabel.text = Distance.displayStrings[row]
+            } else {
+                dropdownCell.optionNameLabel.text = filters?.displayStringForDistance()
+            }
+            dropdownCell.optionSelectionImageView.image = imageForDropdown(distanceExpanded, indexPath: forRowAtIndexPath)
             break;
         case 2:
-            dropdownCell.optionNameLabel.text = SortOption.displayStrings[row]
-            dropdownCell.optionSelectionImageView.image = imageForDropdown(sortOptionExpanded, row: row)
+            if (sortOptionExpanded) {
+                dropdownCell.optionNameLabel.text = SortOption.displayStrings[row]
+            } else {
+                dropdownCell.optionNameLabel.text = filters?.displayStringForSortOption()
+            }
+            dropdownCell.optionSelectionImageView.image = imageForDropdown(sortOptionExpanded, indexPath:forRowAtIndexPath)
             break;
         default:
             NSLog("Error trying to configure SwitchCell")
         }
     }
     
-    func imageForDropdown(optionsExpanded: Bool, row: Int) -> UIImage {
+    func imageForDropdown(optionsExpanded: Bool, indexPath: NSIndexPath) -> UIImage {
+        let row = indexPath.row
+        let section = indexPath.section
+        
+        var selectedIndex: Int
+        if (section == 1) {
+            selectedIndex = Distance.values.indexOf((filters?.distance)!)!
+        } else {
+            selectedIndex = SortOption.values.indexOf((filters?.sort)!)!
+        }
+        
         if (optionsExpanded) {
-            if (row == 0) {
+            if (row == selectedIndex) {
                 return UIImage(named: "Check")!
             } else {
                 return UIImage(named: "Circle")!

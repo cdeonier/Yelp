@@ -8,8 +8,17 @@
 
 import UIKit
 
+protocol SwitchCellDelegate {
+    func switchCell(switchCell: SwitchCell, newValue: Bool)
+}
+
 class SwitchCell: UITableViewCell {
     @IBOutlet weak var optionNameLabel: UILabel!
-
     @IBOutlet weak var optionSwitch: UISwitch!
+    
+    var delegate: SwitchCellDelegate?
+    
+    @IBAction func didToggleSwitch(sender: AnyObject) {
+        delegate?.switchCell(self, newValue: optionSwitch.on)
+    }
 }
